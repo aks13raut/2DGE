@@ -1,3 +1,23 @@
+# --Git Ignore File--
+
+#build files
+build/
+
+#VS code user settings
+.vscode
+
+#Extra folder
+Extra
+Extra/
+
+#SFML lib
+external/*
+
+#all log files
+*.log
+
+# --defaults--
+
 # Prerequisites
 *.d
 
