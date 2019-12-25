@@ -1,6 +1,7 @@
 #pragma once
 
 #include "State.hpp"
+#include "../GUI/ProgressBar.hpp"
 
 /**
     Game state for the main part of the game
@@ -19,5 +20,6 @@ class SplashState : public State
     private:
         sf::Sprite m_logo;
         sf::Sprite m_background;
+        gui::ProgressBar m_loadingBar;
         sf::Clock m_clock;
 };
