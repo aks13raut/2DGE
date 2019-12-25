@@ -7,10 +7,10 @@
 /**
     Game state for the main part of the game
 */
-class StatePlaying : public State
+class MenuState : public State
 {
     public:
-        StatePlaying(Game& game);
+        MenuState(Game& game);
 
         void handleEvent    (sf::Event e)                   override;
         void handleInput    ()                              override;
@@ -19,5 +19,5 @@ class StatePlaying : public State
         void render         (sf::RenderTarget& renderer)    override;
 
     private:
-        gui::StackMenu m_TestMenu;
+        gui::StackMenu m_mainMenu;
 };

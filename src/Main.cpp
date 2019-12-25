@@ -1,5 +1,5 @@
 #include "Game.hpp"
-#include "States/StatePlaying.h"
+#include "States/MenuState.hpp"
 #include "Messaging/System.hpp"
 
 // #include "spdlog/spdlog.h"
@@ -27,6 +27,6 @@ int main()
     
     Game game;
 //    game.pushState<SplashState>(game);
-//    game.pushState<StatePlaying>(game);
+//    game.pushState<MenuState>(game);
     game.run();
 }
