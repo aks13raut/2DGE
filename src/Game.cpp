@@ -4,19 +4,30 @@
 
 #include <iostream>
 
-Game::Game()
-:   m_window    ({1280, 720}, "Title Here")
+Game::Game(std::string path)
+:   path_to_game(path)
+,   m_config(loadYamlFile(path,"game"))
 ,   m_stateMachine(*this)
 ,   m_pSM(&m_stateMachine)
 {
-    m_window.setPosition({m_window.getPosition().x, 0});
+    //config
+    int window_width = m_config["width"].as<int>();
+	int window_height = m_config["height"].as<int>();
+    auto title = m_config["title"].as<std::string>();
+
+    m_window.create(sf::VideoMode(window_width, window_height),title);
+
     m_window.setFramerateLimit(60);
+
     m_stateMachine.pushState<SplashState>(*this);
 }
 
 //Runs the main loop
 void Game::run()
 {
+    
+
+    //init
     constexpr unsigned TPS = 30; //ticks per seconds
     const sf::Time     timePerUpdate = sf::seconds(1.0f / float(TPS));
     unsigned ticks = 0;

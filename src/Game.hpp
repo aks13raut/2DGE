@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include <SFML/Graphics.hpp>
 
 #include "Util/NonCopyable.hpp"
@@ -7,6 +9,7 @@
 #include "States/StateMachine.hpp"
 #include "Util/FPSCounter.hpp"
 #include "ResourceManager/ResourceHolder.hpp"
+#include "Wrapers/YamlConfig.hpp"
 
 static ResourceHolder& assets = ResourceHolder::get();
 
@@ -18,7 +21,7 @@ static ResourceHolder& assets = ResourceHolder::get();
 class Game : public NonCopyable, public NonMovable
 {
     public:
-        Game();
+        Game(std::string path);
 
         void run();
         void exitGame();
@@ -29,9 +32,13 @@ class Game : public NonCopyable, public NonMovable
     private:
         void handleEvent();
 
-        sf::RenderWindow m_window;
-        StateMachine m_stateMachine;
+        std::string path_to_game;
 
-        FPSCounter m_fpsCounter;
+        YAML::Node  m_config;
+
+        sf::RenderWindow m_window;
+        StateMachine     m_stateMachine;
+
+        FPSCounter      m_fpsCounter;
 
 };

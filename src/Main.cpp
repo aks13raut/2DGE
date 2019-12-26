@@ -25,7 +25,7 @@ int main()
 
     msgBus.notify();
     
-    Game game;
+    Game game("../game/");
 //    game.pushState<SplashState>(game);
 //    game.pushState<MenuState>(game);
     game.run();
