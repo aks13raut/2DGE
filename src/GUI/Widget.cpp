@@ -2,6 +2,12 @@
 
 namespace gui {
 
+Widget::Widget(MessageBus *messageBus)
+:   Messager(messageBus)
+{
+    
+}
+
 //Text
 Widget::Text::Text()
 {

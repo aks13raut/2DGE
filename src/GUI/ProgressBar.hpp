@@ -7,7 +7,7 @@ namespace gui
     class ProgressBar : public gui::Widget
     {
         public:
-            ProgressBar();
+            ProgressBar(MessageBus *msgBus);
             void    progress    (float percent);
             float   getProgress ();
             bool    isComplete  ();

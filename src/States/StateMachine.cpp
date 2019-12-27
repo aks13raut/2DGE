@@ -4,7 +4,6 @@
 #include "SplashState.hpp"
 
 StateMachine::StateMachine(Game& game){
-     pushState<SplashState>(game);
 }
 
 void StateMachine::pushState(std::unique_ptr<State> state)

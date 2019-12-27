@@ -1,6 +1,6 @@
 #include "Game.hpp"
 #include "States/MenuState.hpp"
-#include "Messaging/System.hpp"
+#include "Messaging/Messager.hpp"
 
 // #include "spdlog/spdlog.h"
 // #include "spdlog/sinks/basic_file_sink.h"
@@ -18,7 +18,7 @@ int main()
     filelog.get()->error("Sample Error output."); */
 
     MessageBus msgBus;
-    System sys(&msgBus);
+    Messager sys(&msgBus);
 
     Message msg1(MSG_TEST);
     msgBus.sendMessage(msg1);

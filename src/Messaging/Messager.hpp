@@ -2,14 +2,16 @@
 
 #include "MessageBus.hpp"
 
-class System {
+class Messager {
     protected:
     MessageBus *messageBus;
+
     public:
-    System(MessageBus *_messageBus);
-    ~System();
-    void send(Message message);
-    virtual void update();
+    Messager(MessageBus *messageBus);
+    ~Messager();
+    
     std::function<void (Message)> getNotifyFunc();
+    virtual void send(Message msg);
     virtual void handleMessage(Message msg);
+
 };

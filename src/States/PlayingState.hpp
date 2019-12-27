@@ -1,17 +1,15 @@
 #pragma once
 
-
 #include "State.hpp"
-#include "../GUI/StackMenu.hpp"
-#include "../GUI/Button.hpp"
+#include "../GameObject.hpp"
 
 /**
     Game state for the main part of the game
 */
-class MenuState : public State
+class PlayingState : public State
 {
-    public:
-        MenuState(MessageBus *msgBus, Game& game);
+     public:
+        PlayingState(MessageBus *msgBus, Game& game);
 
         void handleEvent    (sf::Event e)                   override;
         void handleInput    ()                              override;
@@ -20,7 +18,7 @@ class MenuState : public State
         void render         (sf::RenderTarget& renderer)    override;
 
     private:
-        gui::StackMenu m_mainMenu;
-        std::unique_ptr<gui::Button> startBtn;
-        std::unique_ptr<gui::Button> exitBtn;
+        sf::Sprite m_background;
+        GameObject player;
+        sf::Clock m_clock;
 };

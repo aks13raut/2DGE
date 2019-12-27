@@ -4,8 +4,9 @@
 
 namespace gui {
 
-TextBox::TextBox(std::string& modString)
+TextBox::TextBox(MessageBus *msgBus, std::string& modString)
 :   m_pModString (&modString)
+,   Widget(msgBus)
 {
     m_label.setCharacterSize(15);
     m_rect.setFillColor({52, 152, 219});

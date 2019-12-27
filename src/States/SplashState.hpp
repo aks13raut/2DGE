@@ -4,12 +4,12 @@
 #include "../GUI/ProgressBar.hpp"
 
 /**
-    Game state for the main part of the game
+    Game state for Splash screen or Loading screen
 */
 class SplashState : public State
 {
      public:
-        SplashState(Game& game);
+        SplashState(MessageBus *msgBus, Game& game);
 
         void handleEvent    (sf::Event e)                   override;
         void handleInput    ()                              override;

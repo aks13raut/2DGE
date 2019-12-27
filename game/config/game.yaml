@@ -3,8 +3,4 @@ title: '2DGE'
 width: 1280
 height: 720
 
-gridDimension:
-  x: 16
-  y: 12
-
 frame_rate_limit: 60

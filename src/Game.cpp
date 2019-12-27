@@ -1,11 +1,13 @@
 #include "Game.hpp"
 
 #include "States/SplashState.hpp"
+#include "States/MenuState.hpp"
 
-#include <iostream>
+#include "spdlog/spdlog.h"
 
 Game::Game(std::string path)
 :   path_to_game(path)
+,   Messager(&messageBus)
 ,   m_config(loadYamlFile(path,"game"))
 ,   m_stateMachine(*this)
 ,   m_pSM(&m_stateMachine)
@@ -14,18 +16,20 @@ Game::Game(std::string path)
     int window_width = m_config["width"].as<int>();
 	int window_height = m_config["height"].as<int>();
     auto title = m_config["title"].as<std::string>();
+    auto frame_limit = m_config["frame_rate_limit"].as<int>();
 
     m_window.create(sf::VideoMode(window_width, window_height),title);
+    m_window.setFramerateLimit(frame_limit);
+    m_window.setVerticalSyncEnabled(true);
 
-    m_window.setFramerateLimit(60);
+    m_stateMachine.pushState<SplashState>(&messageBus,*this);
 
-    m_stateMachine.pushState<SplashState>(*this);
+    messageBus.addReceiver(this->getNotifyFunc());
 }
 
 //Runs the main loop
 void Game::run()
 {
-    
 
     //init
     constexpr unsigned TPS = 30; //ticks per seconds
@@ -67,6 +71,7 @@ void Game::run()
         m_window.display();
 
         //Handle window events
+        messageBus.notify();
         handleEvent();
         m_stateMachine.tryPop();
     }
@@ -91,6 +96,19 @@ void Game::handleEvent()
     }
 }
 
+void Game::handleMessage(Message msg){
+    switch (msg.getMessageType())
+    {
+    case MSG_SPLASH_STATE_FINISHED:
+        {   
+            m_stateMachine.changeState<MenuState>(&messageBus,*this);
+        }
+        break;
+    
+    default:
+        break;
+    }
+}
 
 void Game::exitGame()
 {

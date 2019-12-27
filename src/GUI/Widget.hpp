@@ -3,12 +3,15 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 #include "../ResourceManager/ResourceHolder.hpp"
+#include "../Messaging/Messager.hpp"
 
 namespace gui
 {
-    class Widget
+    class Widget : public Messager
     {
         public:
+            Widget(MessageBus *messageBus);
+
             virtual void handleEvent(sf::Event e, const sf::RenderWindow& window) = 0;
 
             virtual void render(sf::RenderTarget& renderer) = 0;

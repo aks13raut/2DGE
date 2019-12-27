@@ -10,6 +10,7 @@
 #include "Util/FPSCounter.hpp"
 #include "ResourceManager/ResourceHolder.hpp"
 #include "Wrapers/YamlConfig.hpp"
+#include "Messaging/Messager.hpp"
 
 static ResourceHolder& assets = ResourceHolder::get();
 
@@ -18,13 +19,14 @@ static ResourceHolder& assets = ResourceHolder::get();
     Handles state switches and the main loop, as well
     as counting the FPS
 */
-class Game : public NonCopyable, public NonMovable
+class Game : public Messager, public NonCopyable, public NonMovable
 {
     public:
         Game(std::string path);
 
         void run();
         void exitGame();
+        void handleMessage(Message msg) override;
         const sf::RenderWindow& getWindow() const;
 
         StateMachine* m_pSM;
@@ -37,6 +39,7 @@ class Game : public NonCopyable, public NonMovable
         YAML::Node  m_config;
 
         sf::RenderWindow m_window;
+        MessageBus       messageBus;
         StateMachine     m_stateMachine;
 
         FPSCounter      m_fpsCounter;

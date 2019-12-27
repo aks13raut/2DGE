@@ -4,7 +4,8 @@
 
 namespace gui {
 
-Button::Button(ButtonSize s)
+Button::Button(MessageBus *msgBus, ButtonSize s)
+:   Widget(msgBus)
 {
     m_button.setOutlineThickness(1);
     m_button.setOutlineColor(sf::Color::Green);
@@ -18,6 +19,7 @@ Button::Button(ButtonSize s)
             m_button.setSize({128, 64});
             break;
     }
+    m_isPressed = false;
 }
 
 void Button::setFunction(std::function<void(void)>func)
@@ -46,6 +48,7 @@ void Button::handleEvent(sf::Event e, const sf::RenderWindow& window)
                 case sf::Mouse::Left:
                     if (m_button.getGlobalBounds().contains((float)pos.x, (float)pos.y)) {
                         m_function();
+                        m_isPressed = true;
                     }
 
                 default:
@@ -86,6 +89,14 @@ void Button::updateText()
 sf::Vector2f Button::getSize() const
 {
     return m_button.getSize();
+}
+
+bool Button::isPressed(){
+    return m_isPressed;
+}
+
+void Button::reset(){
+    m_isPressed = false;
 }
 
 }

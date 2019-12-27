@@ -1,7 +1,9 @@
 #include "ProgressBar.hpp"
 #include "spdlog/spdlog.h"
 namespace gui {
-ProgressBar::ProgressBar(){
+ProgressBar::ProgressBar(MessageBus *msgBus)
+:   Widget(msgBus)
+{
     m_totalBar.setFillColor(sf::Color::White);
     m_totalBar.setSize({800,40});
     m_progressBar.setFillColor(sf::Color::Blue);

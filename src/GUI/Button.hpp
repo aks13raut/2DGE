@@ -15,7 +15,7 @@ namespace gui
     class Button : public gui::Widget
     {
         public:
-            Button(ButtonSize s = ButtonSize::Wide);
+            Button(MessageBus *msgBus, ButtonSize s = ButtonSize::Wide);
 
             void setFunction(std::function<void(void)> func);
             void setText    (const std::string& str);
@@ -26,6 +26,9 @@ namespace gui
             void setPosition    (const sf::Vector2f& pos)   override;
             sf::Vector2f getSize() const    override;
 
+            bool isPressed();
+            void reset();
+
         private:
             void updateText();
 
@@ -35,7 +38,11 @@ namespace gui
             Text        m_text;
             std::function<void(void)> m_function = [](){};
 
+            bool m_isPressed;
+
     };
 
-    inline std::unique_ptr<Button> makeButton(ButtonSize s = ButtonSize::Wide) { return std::make_unique<Button>(s); }
+    inline std::unique_ptr<Button> makeButton(MessageBus *msgBus, ButtonSize s = ButtonSize::Wide) { 
+        return std::make_unique<Button>(msgBus, s);
+    }
 }

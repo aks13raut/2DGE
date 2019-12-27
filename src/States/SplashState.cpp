@@ -2,8 +2,11 @@
 #include "../Game.hpp"
 #include "MenuState.hpp"
 
-SplashState::SplashState(Game& game)
-:   State(game)
+#include "spdlog/spdlog.h"
+
+SplashState::SplashState(MessageBus *msgBus, Game& game)
+:   State(msgBus, game)
+,   m_loadingBar(msgBus)
 {
     m_background.setTexture(assets.textures.get("splash_bg"));
     m_logo.setTexture(assets.textures.get("logo-default"));
@@ -21,7 +24,8 @@ void SplashState::update(sf::Time deltaTime){
     float percent = deltaTime.asSeconds()/3.0*100;
     m_loadingBar.progress(percent);
     if (this->m_clock.getElapsedTime().asSeconds() > 3){
-        m_pGame->m_pSM->pushState<MenuState>(*m_pGame);
+        send(MSG_SPLASH_STATE_FINISHED);
+        spdlog::warn("Splash Fin message sent");
     }
 }
 void SplashState::fixedUpdate(sf::Time deltaTime)
