@@ -8,18 +8,18 @@
 
 std::string test;
 
-MenuState::MenuState(MessageBus *msgBus, Game& game)
-:   State   (msgBus, game)
+MenuState::MenuState(Game& game)
+:   State(game)
 ,   m_mainMenu(game.getWindow(), 50)
 {
-    auto startBtn = gui::makeButton(msgBus);
+    startBtn = gui::makeButton();
     startBtn->setText("START");
     startBtn->setFunction([]() {
         spdlog::info("Starting Game...");
     });
     m_mainMenu.addWidget(std::move(startBtn));
 
-    auto exitBtn = gui::makeButton(msgBus);
+    exitBtn = gui::makeButton();
     exitBtn->setText("EXIT");
     exitBtn->setFunction([]() {
         spdlog::info("Bye!");

@@ -4,8 +4,7 @@
 
 namespace gui {
 
-Button::Button(MessageBus *msgBus, ButtonSize s)
-:   Widget(msgBus)
+Button::Button(ButtonSize s)
 {
     m_button.setOutlineThickness(1);
     m_button.setOutlineColor(sf::Color::Green);

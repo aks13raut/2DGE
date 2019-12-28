@@ -9,7 +9,7 @@
 class PlayingState : public State
 {
      public:
-        PlayingState(MessageBus *msgBus, Game& game);
+        PlayingState(Game& game);
 
         void handleEvent    (sf::Event e)                   override;
         void handleInput    ()                              override;

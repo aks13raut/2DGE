@@ -11,7 +11,7 @@
 class MenuState : public State
 {
     public:
-        MenuState(MessageBus *msgBus, Game& game);
+        MenuState(Game& game);
 
         void handleEvent    (sf::Event e)                   override;
         void handleInput    ()                              override;

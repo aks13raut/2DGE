@@ -3,16 +3,14 @@
 #include <SFML/Graphics.hpp>
 
 #include "../Util/NonCopyable.hpp"
-#include "../Messaging/Messager.hpp"
 
 class Game;
 
-class State : public NonCopyable, public Messager
+class State : public NonCopyable
 {
 public:
-    State(MessageBus *msgBus, Game& game)
-    :    Messager(msgBus)
-    ,    m_pGame(&game)
+    State(Game& game)
+        : m_pGame(&game)
     {}
     virtual ~State() = default;
     

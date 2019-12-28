@@ -9,7 +9,7 @@
 class SplashState : public State
 {
      public:
-        SplashState(MessageBus *msgBus, Game& game);
+        SplashState(Game& game);
 
         void handleEvent    (sf::Event e)                   override;
         void handleInput    ()                              override;

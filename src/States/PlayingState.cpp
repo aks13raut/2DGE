@@ -2,8 +2,8 @@
 #include "../Game.hpp"
 #include "MenuState.hpp"
 
-PlayingState::PlayingState(MessageBus *msgBus, Game& game)
-:   State(msgBus, game)
+PlayingState::PlayingState(Game& game)
+:   State(game)
 {
     m_background.setTexture(assets.textures.get("splash_bg"));
     player.setTexture(assets.textures.get("player"));

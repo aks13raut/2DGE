@@ -7,7 +7,6 @@
 
 Game::Game(std::string path)
 :   path_to_game(path)
-,   Messager(&messageBus)
 ,   m_config(loadYamlFile(path,"game"))
 ,   m_stateMachine(*this)
 ,   m_pSM(&m_stateMachine)
@@ -22,9 +21,7 @@ Game::Game(std::string path)
     m_window.setFramerateLimit(frame_limit);
     m_window.setVerticalSyncEnabled(true);
 
-    m_stateMachine.pushState<SplashState>(&messageBus,*this);
-
-    messageBus.addReceiver(this->getNotifyFunc());
+    m_stateMachine.pushState<SplashState>(*this);
 }
 
 //Runs the main loop
@@ -71,7 +68,6 @@ void Game::run()
         m_window.display();
 
         //Handle window events
-        messageBus.notify();
         handleEvent();
         m_stateMachine.tryPop();
     }
@@ -93,20 +89,6 @@ void Game::handleEvent()
                 break;
 
         }
-    }
-}
-
-void Game::handleMessage(Message msg){
-    switch (msg.getMessageType())
-    {
-    case MSG_SPLASH_STATE_FINISHED:
-        {   
-            m_stateMachine.changeState<MenuState>(&messageBus,*this);
-        }
-        break;
-    
-    default:
-        break;
     }
 }
 

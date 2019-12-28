@@ -9,7 +9,7 @@ namespace gui
     class TextBox : public gui::Widget
     {
         public:
-            TextBox(MessageBus *msgBus, std::string& modString);
+            TextBox(std::string& modString);
 
             void setLabel       (const std::string& str);
             void setTexture     (const sf::Texture& tex);
@@ -36,7 +36,5 @@ namespace gui
             bool m_isActive = false;
     };
 
-    inline std::unique_ptr<TextBox> makeTextBox(MessageBus *msgBus, std::string& modStr) { 
-        return std::make_unique<TextBox>(msgBus, modStr);
-    }
+    inline std::unique_ptr<TextBox> makeTextBox(std::string& modStr) { return std::make_unique<TextBox>(modStr); }
 }

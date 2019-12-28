@@ -15,7 +15,7 @@ namespace gui
     class Button : public gui::Widget
     {
         public:
-            Button(MessageBus *msgBus, ButtonSize s = ButtonSize::Wide);
+            Button(ButtonSize s = ButtonSize::Wide);
 
             void setFunction(std::function<void(void)> func);
             void setText    (const std::string& str);
@@ -42,7 +42,6 @@ namespace gui
 
     };
 
-    inline std::unique_ptr<Button> makeButton(MessageBus *msgBus, ButtonSize s = ButtonSize::Wide) { 
-        return std::make_unique<Button>(msgBus, s);
-    }
+    inline std::unique_ptr<Button> makeButton(ButtonSize s = ButtonSize::Wide) { return std::make_unique<Button>(s); }
+
 }
