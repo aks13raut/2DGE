@@ -1,6 +1,7 @@
 #include "SplashState.hpp"
 #include "../Game.hpp"
-#include "MenuState.hpp"
+//#include "MenuState.hpp"
+#include "PlayingState.hpp"
 
 SplashState::SplashState(Game& game)
 :   State(game)
@@ -21,7 +22,7 @@ void SplashState::update(sf::Time deltaTime){
     float percent = deltaTime.asSeconds()/3.0*100;
     m_loadingBar.progress(percent);
     if (this->m_clock.getElapsedTime().asSeconds() > 3){
-        m_pGame->m_pSM->pushState<MenuState>(*m_pGame);
+        m_pGame->m_pSM->pushState<PlayingState>(*m_pGame);
     }
 }
 void SplashState::fixedUpdate(sf::Time deltaTime)
