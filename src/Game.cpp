@@ -5,6 +5,7 @@
 
 #include "spdlog/spdlog.h"
 
+
 Game::Game(std::string path)
 :   path_to_game(path)
 ,   m_config(loadYamlFile(path,"game"))
@@ -20,6 +21,8 @@ Game::Game(std::string path)
     m_window.create(sf::VideoMode(window_width, window_height),title);
     m_window.setFramerateLimit(frame_limit);
     m_window.setVerticalSyncEnabled(true);
+
+    
 
     m_stateMachine.pushState<SplashState>(*this);
 }
