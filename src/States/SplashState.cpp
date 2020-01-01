@@ -19,9 +19,9 @@ void SplashState::handleInput(){
 
 }
 void SplashState::update(sf::Time deltaTime){
-    float percent = deltaTime.asSeconds()/3.0*100;
+    float percent = deltaTime.asSeconds()/2.0*100;
     m_loadingBar.progress(percent);
-    if (this->m_clock.getElapsedTime().asSeconds() > 3){
+    if (this->m_clock.getElapsedTime().asSeconds() > 2){
         m_pGame->m_pSM->pushState<PlayingState>(*m_pGame);
     }
 }

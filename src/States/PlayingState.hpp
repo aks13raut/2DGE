@@ -21,6 +21,7 @@ class PlayingState : public State
         void render         (sf::RenderTarget& renderer)    override;
 
     private:
+        sf::View m_view;
         tmx::Map map;
         std::vector<OrthoLayer*> m_layers;
         GameObject player;

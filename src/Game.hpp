@@ -23,6 +23,8 @@ class Game : public NonCopyable, public NonMovable
         void run();
         void exitGame();
         const sf::RenderWindow& getWindow() const;
+        void setView(const sf::View view);
+        void setDefaultView();
 
         StateMachine* m_pSM;
 
@@ -34,6 +36,7 @@ class Game : public NonCopyable, public NonMovable
         YAML::Node  m_config;
 
         sf::RenderWindow m_window;
+
         StateMachine m_stateMachine;
 
         FPSCounter m_fpsCounter;

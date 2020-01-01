@@ -20,7 +20,7 @@ Game::Game(std::string path)
 
     m_window.create(sf::VideoMode(window_width, window_height),title);
     m_window.setFramerateLimit(frame_limit);
-    m_window.setVerticalSyncEnabled(true);  
+    m_window.setVerticalSyncEnabled(true); 
 
     m_stateMachine.pushState<SplashState>(*this);
 }
@@ -101,4 +101,12 @@ void Game::exitGame()
 const sf::RenderWindow& Game::getWindow() const
 {
     return m_window;
+}
+
+void Game::setView(const sf::View view){
+    m_window.setView(view);
+}
+
+void Game::setDefaultView(){
+    m_window.setView(m_window.getDefaultView());
 }
