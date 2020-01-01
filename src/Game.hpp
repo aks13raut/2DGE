@@ -9,7 +9,6 @@
 #include "ResourceManager/ResourceHolder.hpp"
 #include "Wrapers/YamlConfig.hpp"
 
-static ResourceHolder& assets = ResourceHolder::get();
 
 /**
     Main controlling class of the game.
@@ -38,5 +37,4 @@ class Game : public NonCopyable, public NonMovable
         StateMachine m_stateMachine;
 
         FPSCounter m_fpsCounter;
-
 };

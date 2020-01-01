@@ -28,7 +28,7 @@ int main()
 
     msgBus.notify();
 
-    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML window");
+    /* sf::RenderWindow window(sf::VideoMode(800, 600), "SFML window");
 
     tmx::Map map;
     map.load("res/tilemaps/map1.tmx");
@@ -53,7 +53,7 @@ int main()
         window.draw(layerZero);
         window.draw(layerOne);
         window.display();
-    }
+    } */
     
     Game game("../game/");
 //    game.pushState<SplashState>(game);

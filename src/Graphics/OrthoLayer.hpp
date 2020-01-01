@@ -5,6 +5,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "spdlog/spdlog.h"
+#include "../Util/NonCopyable.hpp"
 
 #include <memory>
 #include <vector>
@@ -16,16 +17,20 @@
 #include <cmath>
 
 
-class MapLayer final : public sf::Drawable
+class OrthoLayer final : public sf::Drawable, public NonCopyable
 {
 public:
 
-    MapLayer(const tmx::Map& map, std::size_t idx)
+    OrthoLayer(const tmx::Map& map, std::size_t idx)
     {
         const auto& layers = map.getLayers();
-        if (map.getOrientation() == tmx::Orientation::Orthogonal &&
-            idx < layers.size() && layers[idx]->getType() == tmx::Layer::Type::Tile)
-        {
+        if (map.getOrientation() != tmx::Orientation::Orthogonal ){
+            spdlog::error("Layer is not orthogonal");
+        }
+        else if(idx >= layers.size() ){
+            spdlog::error("map doesn't have layer {}",idx);
+        } 
+        else if( layers[idx]->getType() == tmx::Layer::Type::Tile ){
             //round the chunk size to the nearest tile
             const auto tileSize = map.getTileSize();
             m_chunkSize.x = std::floor(m_chunkSize.x / tileSize.x) * tileSize.x;
@@ -39,16 +44,10 @@ public:
             m_globalBounds.width = mapSize.width;
             m_globalBounds.height = mapSize.height;
         }
-        else
-        {
-            std::cout << "Not a valid orthogonal layer, nothing will be drawn." << std::endl;
-        }
     }
 
-    ~MapLayer() = default;
-    MapLayer(const MapLayer&) = delete;
-    MapLayer& operator = (const MapLayer&) = delete;
-
+    ~OrthoLayer() = default;
+ 
     const sf::FloatRect& getGlobalBounds() const { return m_globalBounds; }
 
     void setTile(int tileX, int tileY, tmx::TileLayer::Tile tile, bool refresh = true)
@@ -64,6 +63,7 @@ public:
         const auto& selectedChunk = getChunkAndTransform(tileX, tileY, chunkLocale);
         return selectedChunk->getTile(chunkLocale.x, chunkLocale.y);
     }
+    
     void setColor(int tileX, int tileY, sf::Color color, bool refresh = true)
     {
         sf::Vector2u chunkLocale;
@@ -97,7 +97,7 @@ private:
         std::uint8_t flipFlags;
     };
 
-    class Chunk final : public sf::Transformable, public sf::Drawable
+    class Chunk final : public sf::Transformable, public sf::Drawable, public NonCopyable
     {
     public:
         using Ptr = std::unique_ptr<Chunk>;
@@ -210,8 +210,6 @@ private:
             }
         }
         ~Chunk() = default;
-        Chunk(const Chunk&) = delete;
-        Chunk& operator = (const Chunk&) = delete;
         std::vector<AnimationState>& getActiveAnimations() { return m_activeAnimations; }
         tmx::TileLayer::Tile getTile(int x, int y) const
         {
@@ -350,7 +348,7 @@ private:
             }
         }
     private:
-        class ChunkArray final : public sf::Drawable
+        class ChunkArray final : public sf::Drawable, public NonCopyable
         {
         public:
             using Ptr = std::unique_ptr<ChunkArray>;
@@ -369,8 +367,6 @@ private:
             }
 
             ~ChunkArray() = default;
-            ChunkArray(const ChunkArray&) = delete;
-            ChunkArray& operator = (const ChunkArray&) = delete;
 
             void reset()
             {

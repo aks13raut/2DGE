@@ -19,3 +19,5 @@ class ResourceHolder
     private:
         ResourceHolder();
 };
+
+static ResourceHolder& assets = ResourceHolder::get();

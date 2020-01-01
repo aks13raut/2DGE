@@ -1,7 +1,10 @@
 #pragma once
 
+#include <vector>
+
 #include "State.hpp"
 #include "../GameObject.hpp"
+#include "../Graphics/OrthoLayer.hpp"
 
 /**
     Game state for the main part of the game
@@ -18,7 +21,8 @@ class PlayingState : public State
         void render         (sf::RenderTarget& renderer)    override;
 
     private:
-        sf::Sprite m_background;
+        tmx::Map map;
+        std::vector<OrthoLayer*> m_layers;
         GameObject player;
         sf::Clock m_clock;
 };
