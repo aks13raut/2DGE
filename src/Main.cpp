@@ -8,6 +8,8 @@
 #include <tmxlite/Layer.hpp>
 #include "Graphics/OrthoLayer.hpp"
 
+#include "Graphics/TileArray.hpp"
+
 int main()
 {
 /*     spdlog::info("Sample Info output.");
@@ -28,13 +30,21 @@ int main()
 
     msgBus.notify();
 
-    /* sf::RenderWindow window(sf::VideoMode(800, 600), "SFML window");
+    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML window");
 
-    tmx::Map map;
-    map.load("res/tilemaps/map1.tmx");
+    //tmx::Map map;
+    //map.load("res/tilemaps/map1.tmx");
     
-    MapLayer layerZero(map, 0);
-    MapLayer layerOne(map, 1);
+    //MapLayer layerZero(map, 0);
+    //MapLayer layerOne(map, 1);
+
+    auto& textr = assets.textures.get("overworld");
+    TileArray tla(10,10);
+    for(int i=0; i < 10; ++i){
+        for(int j=0; j< 10; ++j){
+            tla(i,j).init(textr,i,j,0,0,{16,16},{32,32});
+        }
+    }
 
     sf::Clock globalClock;
     while (window.isOpen())
@@ -47,15 +57,16 @@ int main()
         }
 
         sf::Time duration = globalClock.getElapsedTime();
-        layerZero.update(duration);
+        //layerZero.update(duration);
 
         window.clear(sf::Color::Black);
-        window.draw(layerZero);
-        window.draw(layerOne);
+        window.draw(tla);
+        //window.draw(layerZero);
+        //window.draw(layerOne);
         window.display();
-    } */
+    }
     
-    Game game("../game/");
+    Game game("game/");
 //    game.pushState<SplashState>(game);
 //    game.pushState<MenuState>(game);
     game.run();

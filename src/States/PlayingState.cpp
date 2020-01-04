@@ -41,7 +41,7 @@ void PlayingState::update(sf::Time deltaTime){
     limit.x = limit.x/8;
     limit.y = limit.y/8;
     if( abs(screen_center.x - player_center.x) >= limit.x ||
-        abs(screen_center.y - player_center.y) >= limit.y   )
+        abs(screen_center.y - player_center.y) >= limit.y )
     {
         m_view.move(player.getDisplacement());
     }

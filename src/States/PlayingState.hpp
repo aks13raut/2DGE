@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "State.hpp"
-#include "../GameObject.hpp"
+#include "../GameLogic/GameObject.hpp"
 #include "../Graphics/OrthoLayer.hpp"
 
 /**

@@ -1,6 +1,8 @@
 #pragma once
 
 #include "SFML/Graphics.hpp"
+#include <map>
+#include <string>
 
 enum GameObjectType{
     PLAYER,
@@ -34,4 +36,5 @@ private:
     sf::Vector2f   m_speed;
     sf::Vector2f   m_acceleration;
     sf::Vector2f   displacement;
+    std::map<std::string,std::string> m_properties;
 };
