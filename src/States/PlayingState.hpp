@@ -4,7 +4,6 @@
 
 #include "State.hpp"
 #include "../GameLogic/GameObject.hpp"
-#include "../Graphics/OrthoLayer.hpp"
 
 /**
     Game state for the main part of the game
@@ -22,8 +21,6 @@ class PlayingState : public State
 
     private:
         sf::View m_view;
-        tmx::Map map;
-        std::vector<OrthoLayer*> m_layers;
         GameObject player;
         sf::Clock m_clock;
 };

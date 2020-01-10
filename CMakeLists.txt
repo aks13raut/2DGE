@@ -25,9 +25,6 @@ target_link_libraries(framework spdlog::spdlog)
 add_subdirectory(external/yaml-cpp)
 target_link_libraries(framework yaml-cpp)
 
-#tmxlite
-add_subdirectory(external/tmxlite/tmxlite)
-target_link_libraries(framework tmxlite)
 
 #Copy resources
 file(COPY ${CMAKE_SOURCE_DIR}/res DESTINATION ${CMAKE_BINARY_DIR})
