@@ -8,6 +8,16 @@ TileArray::TileArray(int X,int Y)
 {
     m_tiles = new Tile[size_total];
 }
+TileArray::TileArray(int X,int Y,std::vector<tmx::TileLayer::Tile> tiles)
+:   size_x(X)
+,   size_y(Y)
+,   size_total(X*Y)
+{
+    m_tiles = new Tile[size_total];
+    // for(int i=0; i < size_total; ++i){
+    // }
+}
+
 
 TileArray::~TileArray()
 {

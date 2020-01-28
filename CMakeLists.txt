@@ -7,7 +7,7 @@ project(2dge)
 #Add the files
 file(GLOB_RECURSE SOURCES src/*.cpp)
 
-add_executable(framework ${SOURCES})
+add_executable(${PROJECT_NAME} ${SOURCES})
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
 
@@ -15,16 +15,19 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
 
 #sfml
 find_package(SFML REQUIRED graphics network audio window system)
-target_link_libraries(framework ${SFML_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${SFML_LIBRARIES})
 
 #spdlog
 add_subdirectory(external/spdlog)
-target_link_libraries(framework spdlog::spdlog)
+target_link_libraries(${PROJECT_NAME} spdlog::spdlog)
 
 #yaml-cpp
 add_subdirectory(external/yaml-cpp)
-target_link_libraries(framework yaml-cpp)
+target_link_libraries(${PROJECT_NAME} yaml-cpp)
 
+#tmxlite
+add_subdirectory(external/tmxlite/tmxlite)
+target_link_libraries(${PROJECT_NAME} tmxlite)
 
 #Copy resources
 file(COPY ${CMAKE_SOURCE_DIR}/res DESTINATION ${CMAKE_BINARY_DIR})
