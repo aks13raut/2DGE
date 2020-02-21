@@ -1,5 +1,6 @@
 #include "Game.hpp"
 
+#include "States/stateHandler.hpp"
 #include "States/SplashState.hpp"
 #include "States/MenuState.hpp"
 
@@ -22,7 +23,10 @@ Game::Game(std::string path)
     m_window.setFramerateLimit(frame_limit);
     m_window.setVerticalSyncEnabled(true); 
 
-    m_stateMachine.pushState<SplashState>(*this);
+    stateHandler.setStateMachinePtr(m_pSM);
+    stateHandler.setGamePtr(this);
+    stateHandler.pushState(SPLASH);
+    //m_stateMachine.pushState<SplashState>(*this);
 }
 
 //Runs the main loop
@@ -95,6 +99,7 @@ void Game::handleEvent()
 
 void Game::exitGame()
 {
+    spdlog::info("Closing game...");
     m_window.close();
 }
 

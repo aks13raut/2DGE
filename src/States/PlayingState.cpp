@@ -26,10 +26,10 @@ PlayingState::PlayingState(Game& game)
     tmx::Map map;
     map.load("res/tilemaps/map1.tmx");
 
-     MapLayer* layerZero = new MapLayer(map, 0);
-     layers.emplace_back(layerZero);
-    // MapLayer* layerOne = new MapLayer(map, 1);
-    // layers.emplace_back(layerOne);
+    MapLayer* layerZero = new MapLayer(map, 0);
+    layers.emplace_back(layerZero);
+    MapLayer* layerOne = new MapLayer(map, 1);
+    layers.emplace_back(layerOne);
     // MapLayer* layerTwo = new MapLayer(map, 2);
     // layers.emplace_back(layerTwo);
     

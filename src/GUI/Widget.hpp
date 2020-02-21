@@ -3,12 +3,15 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 #include "../ResourceManager/ResourceHolder.hpp"
+#include "../../external/sigslot/signal.hpp"
 
 namespace gui
 {
     class Widget
     {
         public:
+            sigslot::signal<> sig;
+
             virtual void handleEvent(sf::Event e, const sf::RenderWindow& window) = 0;
 
             virtual void render(sf::RenderTarget& renderer) = 0;

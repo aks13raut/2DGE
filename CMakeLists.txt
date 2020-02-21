@@ -14,6 +14,7 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
 #Add libraries
 
 #sfml
+set(SFML_DIR "external/SFML-2.5.1/lib/cmake/SFML")
 find_package(SFML REQUIRED graphics network audio window system)
 target_link_libraries(${PROJECT_NAME} ${SFML_LIBRARIES})
 

@@ -1,10 +1,13 @@
 #include "MenuState.hpp"
+#include "stateHandler.hpp"
 
 #include "../GUI/Button.hpp"
 #include "../GUI/Textbox.hpp"
 #include "../Game.hpp"
 
 #include "spdlog/spdlog.h"
+
+#include "PlayingState.hpp"
 
 std::string test;
 
@@ -14,16 +17,15 @@ MenuState::MenuState(Game& game)
 {
     startBtn = gui::makeButton();
     startBtn->setText("START");
-    startBtn->setFunction([]() {
+    startBtn->sig.connect([]() {
         spdlog::info("Starting Game...");
+        stateHandler.pushState(PLAYING);
     });
     m_mainMenu.addWidget(std::move(startBtn));
 
     exitBtn = gui::makeButton();
     exitBtn->setText("EXIT");
-    exitBtn->setFunction([]() {
-        spdlog::info("Bye!");
-    });
+    exitBtn->sig.connect(&Game::exitGame,&game);
     m_mainMenu.addWidget(std::move(exitBtn));
     
 }

@@ -46,7 +46,8 @@ void Button::handleEvent(sf::Event e, const sf::RenderWindow& window)
             switch(e.mouseButton.button) {
                 case sf::Mouse::Left:
                     if (m_button.getGlobalBounds().contains((float)pos.x, (float)pos.y)) {
-                        m_function();
+                        //m_function();
+                        sig();
                         m_isPressed = true;
                     }
 

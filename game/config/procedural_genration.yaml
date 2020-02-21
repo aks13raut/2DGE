@@ -1,0 +1,4 @@
+percent_of_initial_rocks: 50
+no_of_iterations: 4
+threshold: 5
+moore_neighboorhood_size: 1
