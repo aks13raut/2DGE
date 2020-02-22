@@ -3,7 +3,7 @@
 #include "MenuState.hpp"
 
 #include <math.h>
-
+#include "stateHandler.hpp"
 #include <spdlog/spdlog.h>
 #include <tmxlite/Map.hpp>
 #include <tmxlite/Layer.hpp>
@@ -18,7 +18,8 @@ PlayingState::PlayingState(Game& game)
 
     player.setTexture(assets.textures.get("M_08"));
     player.setTextureRect({0,1,16,16});
-    player.setPosition(51*16,45*16);
+    //player.setPosition(51*16,45*16);
+    //player.setAABB({0,0,11,11});
 
     m_view.setCenter(50*16,50*16);
     m_view.setSize(640,360);
@@ -33,9 +34,57 @@ PlayingState::PlayingState(Game& game)
     // MapLayer* layerTwo = new MapLayer(map, 2);
     // layers.emplace_back(layerTwo);
     
+    const auto& layers = map.getLayers();
+    spdlog::info("Map has {} layers",layers.size());
+    for (const auto& layer : layers)
+    {
+        spdlog::info("Found Layer: "+layer->getName());
+        spdlog::info("Layer Type: {}",int(layer->getType()));
+
+        if(layer->getType() == tmx::Layer::Type::Object)
+        {
+            const auto& objects = layer->getLayerAs<tmx::ObjectGroup>().getObjects();
+            spdlog::info("Found {} objects in layer",objects.size());
+            for(const auto& object : objects)
+            {
+                GameObject* obj = new GameObject();
+                spdlog::info("Object "+object.getName());
+                const auto& properties = object.getProperties();
+                spdlog::info("Object has {} properties",properties.size());
+                for(const auto& prop : properties)
+                {
+                    spdlog::info("Found property: "+prop.getName());
+                    spdlog::info("Type: {}",int(prop.getType()));
+                }
+                if(object.getName() == "starting_point"){
+                    player.setPosition(object.getPosition().x,object.getPosition().y);
+                    player.setSize(object.getAABB().width,object.getAABB().height);
+                }
+                else{
+                    
+                    obj->setAABB(object.getAABB());
+                    m_objects.emplace_back(obj);
+                }
+            }
+        }
+    }
+
+}
+
+void printAABB(sf::FloatRect aabb){
+    spdlog::warn("AABB = ({},{},{},{}",aabb.top,aabb.left,aabb.width,aabb.height);
 }
 
 void PlayingState::handleEvent(sf::Event e){
+    if(e.type == sf::Event::KeyPressed && e.key.code == sf::Keyboard::F){
+        stateHandler.pushState(PCG);
+    }
+    for(auto* object : m_objects){
+        if(object->intersects(player.getAABB())){
+            player.move({0,+11});
+            stateHandler.pushState(PCG);
+        }
+    }
     player.handleEvent(e);
 }
 void PlayingState::handleInput(){

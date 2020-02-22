@@ -65,6 +65,7 @@ class ProceduralGenerator {
     ProceduralGenerator(float r,int n,int T,int M);
     ProceduralGenerator(std::string filename);
     Map* createMap(int seed,int sizeX=10,int sizeY=10);
+    Map* createMap(std::string filename);
     private:
     float m_r;
     int m_n,m_T,m_M;

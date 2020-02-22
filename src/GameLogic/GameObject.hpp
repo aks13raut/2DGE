@@ -3,6 +3,7 @@
 #include "SFML/Graphics.hpp"
 #include <map>
 #include <string>
+#include <tmxlite/Object.hpp>
 
 enum GameObjectType{
     PLAYER,
@@ -18,6 +19,11 @@ public:
 
     void setPosition(sf::Vector2f);
     void setPosition(float,float);
+    void setSize(float,float);
+    void setAABB(const tmx::FloatRect& AABB);
+    const sf::FloatRect& getAABB();
+    bool intersects(const sf::FloatRect&  target);
+    bool contains(const sf::Vector2f&  point);
     void setTexture(const sf::Texture&);
     void setTextureRect(const sf::IntRect &rectangle);
     sf::Vector2f getPosition();
@@ -33,6 +39,7 @@ private:
     GameObjectType m_type;
     sf::Sprite     m_sprite;
     sf::Vector2f   m_position;
+    sf::FloatRect  m_AABB;
     sf::Vector2f   m_speed;
     sf::Vector2f   m_acceleration;
     sf::Vector2f   displacement;

@@ -33,19 +33,19 @@ void printMap(Map *m){
 }
 
 void setTiles(Map* m){
-    auto& textr = assets.textures.get("overworld");
+    auto& textr = assets.textures.get("caves");
     for(int i=0; i < m->rowCount; i++){
         for(int j=0; j < m->colCount ; j++) {
             switch (m->tileTypes[i][j])
             {
             case FLOOR:
-                (*m)(i,j).init(textr,i,j,1,1,{16,16},{32,32});
+                (*m)(i,j).init(textr,i,j,13,13,{48,48},{32,32});
                 break;
             case ROCK:
-                (*m)(i,j).init(textr,i,j,1,4,{16,16},{32,32});
+                (*m)(i,j).init(textr,i,j,11,14,{48,48},{32,32});
                 break;
             default:
-                (*m)(i,j).init(textr,i,j,7,3,{16,16},{32,32});
+                (*m)(i,j).init(textr,i,j,12,14,{48,48},{32,32});
                 break;
             }
             
@@ -85,6 +85,50 @@ Map* ProceduralGenerator::createMap(int seed,int sizeX,int sizeY)
         }
     }
     printMap(map);
+    setTiles(map);
+    
+    return map;
+}
+
+Map* ProceduralGenerator::createMap(std::string filename)
+{
+    std::string path = "game/config/"+filename+".yaml";
+	YAML::Node config = YAML::LoadFile(path);
+
+    int seed = config["seed"].as<int>();
+    int sizeX = config["mapSize"]["x"].as<int>();
+    int sizeY = config["mapSize"]["y"].as<int>();
+
+    srand(seed);
+
+    Map *map = new Map(sizeX,sizeY);
+    
+    int count = m_r*(sizeX*sizeY)/100.0;
+    
+    for(int i=0; i < map->rowCount; i++){
+        for(int j=0; j < map->colCount ; j++) {
+            if(count && rand()%2 == 0){
+                count--;
+                map->cell[i][j] = ROCK_CHAR;
+                map->tileTypes[i][j] = ROCK;
+            }
+            else{        
+                map->cell[i][j] = ' ';
+                map->tileTypes[i][j] = FLOOR;
+            }
+        }
+    }
+    setTiles(map);
+    
+    for(auto c = 0; c < m_n; c++){
+        for(int i=0; i < map->rowCount; i++){
+            for(int j=0; j < map->colCount ; j++) {
+                if(map->calcNeighbourhoodValue(i,j) > m_T)
+                    map->cell[i][j] = ROCK_CHAR;
+                else map->cell[i][j] = ' ';
+            }
+        }
+    }
     setTiles(map);
     
     return map;

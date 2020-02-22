@@ -8,7 +8,7 @@
 
 
 Game::Game(std::string path)
-:   path_to_game(path)
+:   m_gameDir(path)
 ,   m_config(loadYamlFile(path,"game"))
 ,   m_stateMachine(*this)
 ,   m_pSM(&m_stateMachine)
@@ -18,6 +18,7 @@ Game::Game(std::string path)
 	int window_height = m_config["height"].as<int>();
     auto title = m_config["title"].as<std::string>();
     auto frame_limit = m_config["frame_rate_limit"].as<int>();
+    TPS = m_config["ticks_per_sec"].as<unsigned int>();
 
     m_window.create(sf::VideoMode(window_width, window_height),title);
     m_window.setFramerateLimit(frame_limit);
@@ -34,7 +35,6 @@ void Game::run()
 {
 
     //init
-    constexpr unsigned TPS = 30; //ticks per seconds
     const sf::Time     timePerUpdate = sf::seconds(1.0f / float(TPS));
     unsigned ticks = 0;
 
@@ -87,7 +87,7 @@ void Game::handleEvent()
         m_stateMachine.handleEvent(e);
         switch (e.type) {
             case sf::Event::Closed:
-                m_window.close();
+                exitGame();
                 break;
 
             default:
@@ -115,3 +115,7 @@ void Game::setView(const sf::View view){
 void Game::setDefaultView(){
     m_window.setView(m_window.getDefaultView());
 }
+
+ void Game::serGameDir(std::string path){
+     m_gameDir = path;
+ }

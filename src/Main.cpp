@@ -1,30 +1,19 @@
 #include "Game.hpp"
+#include "spdlog/spdlog.h"
+
 #include "PCG/ProceduralGenerator.hpp"
+#include "yaml-cpp/yaml.h"
 
-int main()
+
+
+int main(int argc, char *argv[])
 {   
-    ProceduralGenerator pcg("procedural_genration");
-    //ProceduralGenerator pcg(50,200,7,2);
-    Map *m = pcg.createMap(0,50,50);
-
-    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML window");
-    sf::Clock globalClock;
-    while (window.isOpen())
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
-
-        sf::Time duration = globalClock.getElapsedTime();
-    
-        window.clear(sf::Color::Black);
-        window.draw(m->tla);
-        window.display();
+    if(argc < 2){
+        spdlog::error("No Game Directory Provided");
+        spdlog::info("(provide it as a command line argument)");
+        return EXIT_FAILURE;
     }
     
-    Game game("game/");
+    Game game(argv[1]);
     game.run();
 }

@@ -3,12 +3,41 @@
 void GameObject::setPosition(sf::Vector2f pos){
     m_position = pos;
     m_sprite.setPosition(pos);
+    m_AABB.top = pos.y;
+    m_AABB.left = pos.x;
 }
 
 void GameObject::setPosition(float x, float y){
     m_position.x = x;
     m_position.y = y;
     m_sprite.setPosition(x,y);
+    m_AABB.top = y;
+    m_AABB.left = x;
+}
+
+void GameObject::setSize(float w,float h){
+    m_sprite.scale({w/16,h/16});
+    m_AABB.width = w;
+    m_AABB.height = h;
+}
+
+void GameObject::setAABB(const tmx::FloatRect& AABB){
+    m_AABB.top = AABB.top;
+    m_AABB.left = AABB.left;
+    m_AABB.height = AABB.height;
+    m_AABB.width = AABB.width;
+}
+
+const sf::FloatRect& GameObject::getAABB(){
+    return m_AABB;
+}
+
+bool GameObject::intersects(const sf::FloatRect& target){
+    return m_AABB.intersects(target);
+}
+
+bool GameObject::contains(const sf::Vector2f& point){
+    return m_AABB.contains(point);
 }
 
 void GameObject::setTexture(const sf::Texture& texture){
@@ -71,6 +100,8 @@ void GameObject::handleEvent(sf::Event event){
 void GameObject::move(sf::Vector2f disp){
     m_position += disp;
     m_sprite.setPosition(m_position);
+    m_AABB.top += disp.y;
+    m_AABB.left += disp.x;
 }
 
 const sf::Vector2f GameObject::getDisplacement(){

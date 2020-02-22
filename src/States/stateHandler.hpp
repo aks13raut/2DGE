@@ -4,11 +4,13 @@
 #include "PlayingState.hpp"
 #include "MenuState.hpp"
 #include "SplashState.hpp"
+#include "PCGState.hpp"
 
 enum StateName {
     SPLASH,
     MENU,
-    PLAYING
+    PLAYING,
+    PCG
 };
 
 class StateHandler
@@ -36,10 +38,15 @@ class StateHandler
             case PLAYING:
                 sm->pushState<PlayingState>(*g);
                 break;
+            case PCG:
+                sm->pushState<PCGState>(*g);
     
             default:
                 break;
             }
+        }
+        void popState(){
+            sm->popState();
         }
     private:
         StateMachine* sm;
