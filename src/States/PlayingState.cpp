@@ -61,7 +61,7 @@ PlayingState::PlayingState(Game& game)
                     player.setSize(object.getAABB().width,object.getAABB().height);
                 }
                 else{
-                    
+                    obj->name = object.getName();
                     obj->setAABB(object.getAABB());
                     m_objects.emplace_back(obj);
                 }
@@ -77,12 +77,12 @@ void printAABB(sf::FloatRect aabb){
 
 void PlayingState::handleEvent(sf::Event e){
     if(e.type == sf::Event::KeyPressed && e.key.code == sf::Keyboard::F){
-        stateHandler.pushState(PCG);
+        stateHandler.pushState<PCGState>(stateHandler.game(),"cave1");
     }
     for(auto* object : m_objects){
         if(object->intersects(player.getAABB())){
             player.move({0,+11});
-            stateHandler.pushState(PCG);
+            stateHandler.pushState<PCGState>(stateHandler.game(), object->name);
         }
     }
     player.handleEvent(e);

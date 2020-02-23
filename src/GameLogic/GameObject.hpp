@@ -33,6 +33,7 @@ public:
     void update(sf::Time deltaTime);
     void handleEvent(sf::Event e);
 
+    std::string name;
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
@@ -44,4 +45,6 @@ private:
     sf::Vector2f   m_acceleration;
     sf::Vector2f   displacement;
     std::map<std::string,std::string> m_properties;
+
+    
 };

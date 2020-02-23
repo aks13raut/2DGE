@@ -19,7 +19,7 @@ MenuState::MenuState(Game& game)
     startBtn->setText("START");
     startBtn->sig.connect([]() {
         spdlog::info("Starting Game...");
-        stateHandler.pushState(PLAYING);
+        stateHandler.pushState<PlayingState>(stateHandler.game());
     });
     m_mainMenu.addWidget(std::move(startBtn));
 

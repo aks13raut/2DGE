@@ -6,13 +6,6 @@
 #include "SplashState.hpp"
 #include "PCGState.hpp"
 
-enum StateName {
-    SPLASH,
-    MENU,
-    PLAYING,
-    PCG
-};
-
 class StateHandler
 {
     public:
@@ -24,33 +17,25 @@ class StateHandler
             sm = sm_ptr;
         }
         void setGamePtr(Game* game_ptr){
-            g = game_ptr;
+            m_game = game_ptr;
         }
-        void pushState(enum StateName stateName){
-            switch (stateName)
-            {
-            case SPLASH:
-                sm->pushState<SplashState>(*g);
-                break;
-            case MENU:
-                sm->pushState<MenuState>(*g);
-                break;
-            case PLAYING:
-                sm->pushState<PlayingState>(*g);
-                break;
-            case PCG:
-                sm->pushState<PCGState>(*g);
-    
-            default:
-                break;
-            }
-        }
+        template<typename T, typename... Args>
+            void pushState(Args&&... args);
         void popState(){
             sm->popState();
         }
+        Game& game(){
+            return *m_game;
+        }
     private:
         StateMachine* sm;
-        Game* g;
+        Game* m_game;
 };
+
+template<typename T, typename... Args>
+inline void StateHandler::pushState(Args&&... args)
+{
+    sm->pushState<T>(std::forward<Args>(args)...);
+}
 
 static StateHandler& stateHandler = StateHandler::get();

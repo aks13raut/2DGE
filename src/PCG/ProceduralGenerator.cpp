@@ -1,6 +1,8 @@
 #include "ProceduralGenerator.hpp"
 #include <iostream>
 #include <iomanip>
+#include <ctime>
+#include "spdlog/spdlog.h"
 
 #include "yaml-cpp/yaml.h"
 
@@ -21,6 +23,10 @@ ProceduralGenerator::ProceduralGenerator(std::string filename)
     m_n = config["no_of_iterations"].as<int>();
     m_T = config["threshold"].as<int>();
     m_M = config["moore_neighboorhood_size"].as<int>();
+    m_t = m_M*2+1;
+    neighborhood = (int**)malloc(sizeof(int*)*m_t);
+    for(int i=0;i<m_t;++i)
+        neighborhood[i] = (int*)malloc(sizeof(int)*m_t);
 }
 
 void printMap(Map *m){
@@ -78,7 +84,7 @@ Map* ProceduralGenerator::createMap(int seed,int sizeX,int sizeY)
     for(auto c = 0; c < m_n; c++){
         for(int i=0; i < map->rowCount; i++){
             for(int j=0; j < map->colCount ; j++) {
-                if(map->calcNeighbourhoodValue(i,j) > m_T)
+                if(map->calcNeighbourhoodValue(i,j,m_t,neighborhood) > m_T)
                     map->cell[i][j] = ROCK_CHAR;
                 else map->cell[i][j] = ' ';
             }
@@ -95,7 +101,13 @@ Map* ProceduralGenerator::createMap(std::string filename)
     std::string path = "game/config/"+filename+".yaml";
 	YAML::Node config = YAML::LoadFile(path);
 
-    int seed = config["seed"].as<int>();
+    int seed = 1;
+    if(config["seed"].as<std::string>() == "time"){
+        seed = time(0);
+    }
+    else{
+        seed = config["seed"].as<int>();
+    }
     int sizeX = config["mapSize"]["x"].as<int>();
     int sizeY = config["mapSize"]["y"].as<int>();
 
@@ -119,17 +131,22 @@ Map* ProceduralGenerator::createMap(std::string filename)
         }
     }
     setTiles(map);
-    
     for(auto c = 0; c < m_n; c++){
         for(int i=0; i < map->rowCount; i++){
             for(int j=0; j < map->colCount ; j++) {
-                if(map->calcNeighbourhoodValue(i,j) > m_T)
+                if(map->calcNeighbourhoodValue(i,j,m_t,neighborhood) >= m_T){
                     map->cell[i][j] = ROCK_CHAR;
-                else map->cell[i][j] = ' ';
+                    map->tileTypes[i][j] = ROCK;
+                }
+                else {
+                    map->cell[i][j] = ' ';
+                    map->tileTypes[i][j] = FLOOR;
+                }
             }
         }
     }
     setTiles(map);
-    
+    spdlog::info("Map with seed = {} :",seed);
+    printMap(map);
     return map;
 }

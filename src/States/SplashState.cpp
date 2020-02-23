@@ -23,7 +23,7 @@ void SplashState::update(sf::Time deltaTime){
     float percent = deltaTime.asSeconds()/2.0*100;
     m_loadingBar.progress(percent);
     if (this->m_clock.getElapsedTime().asSeconds() > 2){
-        stateHandler.pushState(MENU);
+        stateHandler.pushState<MenuState>(stateHandler.game());
     }
 }
 void SplashState::fixedUpdate(sf::Time deltaTime)
