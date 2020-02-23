@@ -18,7 +18,13 @@ PCGState::PCGState(Game& game,std::string filename)
     player.setPosition(51*16,45*16);
 
     m_view.setCenter(50*16,50*16);
-    m_view.setSize(640,360);
+
+    YAML::Node gameConfig = game.getConfig();
+
+    int width = gameConfig["width"].as<int>();
+    int height = gameConfig["height"].as<int>();
+    //m_view.setSize(width*0.67,height*0.67);
+    player.scale({3,3});
     
 }
 

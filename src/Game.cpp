@@ -119,3 +119,7 @@ void Game::setDefaultView(){
  void Game::serGameDir(std::string path){
      m_gameDir = path;
  }
+
+ const YAML::Node& Game::getConfig(){
+     return m_config;
+ }

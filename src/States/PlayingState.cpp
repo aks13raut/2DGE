@@ -9,23 +9,35 @@
 #include <tmxlite/Layer.hpp>
 #include <tmxlite/TileLayer.hpp>
 #include <tmxlite/ObjectGroup.hpp>
+#include "yaml-cpp/yaml.h"
 
 #include "../ResourceManager/TilesetManager.hpp"
 
 PlayingState::PlayingState(Game& game)
 :   State(game)
 {
+    YAML::Node playerConfig = YAML::LoadFile("game/config/player.yaml");
+    std::string textrFile = playerConfig["texture"].as<std::string>();
+    sf::IntRect textrRect;
+    textrRect.top = playerConfig["texture_rect"]["top"].as<int>();
+    textrRect.left = playerConfig["texture_rect"]["left"].as<int>();
+    textrRect.width = playerConfig["texture_rect"]["width"].as<int>();
+    textrRect.height = playerConfig["texture_rect"]["height"].as<int>();
 
-    player.setTexture(assets.textures.get("M_08"));
-    player.setTextureRect({0,1,16,16});
+    player.setTexture(assets.textures.get(textrFile));
+    player.setTextureRect(textrRect);
     //player.setPosition(51*16,45*16);
     //player.setAABB({0,0,11,11});
 
-    m_view.setCenter(50*16,50*16);
-    m_view.setSize(640,360);
+    YAML::Node gameConfig = game.getConfig();
 
+    int width = gameConfig["width"].as<int>();
+    int height = gameConfig["height"].as<int>();
+    m_view.setSize(width*0.75,height*0.75);
+
+    
     tmx::Map map;
-    map.load("res/tilemaps/map1.tmx");
+    map.load("res/tilemaps/"+gameConfig["map file"].as<std::string>()+".tmx");
 
     MapLayer* layerZero = new MapLayer(map, 0);
     layers.emplace_back(layerZero);
@@ -59,6 +71,7 @@ PlayingState::PlayingState(Game& game)
                 if(object.getName() == "starting_point"){
                     player.setPosition(object.getPosition().x,object.getPosition().y);
                     player.setSize(object.getAABB().width,object.getAABB().height);
+                    m_view.setCenter(object.getPosition().x,object.getPosition().y);
                 }
                 else{
                     obj->name = object.getName();
@@ -77,7 +90,7 @@ void printAABB(sf::FloatRect aabb){
 
 void PlayingState::handleEvent(sf::Event e){
     if(e.type == sf::Event::KeyPressed && e.key.code == sf::Keyboard::F){
-        stateHandler.pushState<PCGState>(stateHandler.game(),"cave1");
+        stateHandler.pushState<PCGState>(stateHandler.game(),"cave2");
     }
     for(auto* object : m_objects){
         if(object->intersects(player.getAABB())){

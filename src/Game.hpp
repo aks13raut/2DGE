@@ -25,6 +25,7 @@ class Game : public NonCopyable, public NonMovable
         void setView(const sf::View view);
         void setDefaultView();
         void serGameDir(std::string path);
+        const YAML::Node& getConfig();
 
         StateMachine* m_pSM;
 

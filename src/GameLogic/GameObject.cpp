@@ -48,6 +48,10 @@ void GameObject::setTextureRect(const sf::IntRect &rectangle)  {
     m_sprite.setTextureRect(rectangle);
 }
 
+void GameObject::scale(const sf::Vector2f scl){
+    m_sprite.scale(scl);
+}
+
 sf::Vector2f GameObject::getPosition(){
     return m_position;
 }

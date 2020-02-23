@@ -26,6 +26,7 @@ public:
     bool contains(const sf::Vector2f&  point);
     void setTexture(const sf::Texture&);
     void setTextureRect(const sf::IntRect &rectangle);
+    void scale(const sf::Vector2f scl);
     sf::Vector2f getPosition();
     void move(sf::Vector2f disp);
     const sf::Vector2f getDisplacement();
