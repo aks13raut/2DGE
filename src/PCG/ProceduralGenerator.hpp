@@ -39,18 +39,31 @@ class Map{
     int value(int i,int j){
         return cell[i][j]==ROCK_CHAR?1:0;
     }
+<<<<<<< HEAD
     int calcNeighbourhoodValue(int x,int y,int t){
+=======
+    int calcNeighbourhoodValue(int x,int y,int t,int **neighbourhood){
+>>>>>>> d5ada0ec19a4f6a2d2b4eed76974dc8fbb89d330
         int m = x-t/2;
         int n = y-t/2;
         int sum = 0;
         for(int i=0;i<t;++i,++m){
             for(int j=0;j<t;++j,++n){
                 if((m >= 0 && m < rowCount) && n >= 0 && n < colCount){
+<<<<<<< HEAD
                     sum += value(m,n);
                 }
                 else{
                     sum += 1;
                 }
+=======
+                    neighbourhood[i][j] = value(m,n);
+                }
+                else{
+                    neighbourhood[i][j] = rand()%2;
+                }
+                sum += neighbourhood[i][j];
+>>>>>>> d5ada0ec19a4f6a2d2b4eed76974dc8fbb89d330
             }
         }
         return sum;

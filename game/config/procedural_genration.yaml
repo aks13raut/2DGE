@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 percent_of_initial_rocks: 44
+=======
+percent_of_initial_rocks: 50
+>>>>>>> d5ada0ec19a4f6a2d2b4eed76974dc8fbb89d330
 no_of_iterations: 4
 threshold: 5
 moore_neighboorhood_size: 1

@@ -82,7 +82,11 @@ Map* ProceduralGenerator::createMap(int seed,int sizeX,int sizeY)
     for(auto c = 0; c < m_n; c++){
         for(int i=0; i < map->rowCount; i++){
             for(int j=0; j < map->colCount ; j++) {
+<<<<<<< HEAD
                 if(map->calcNeighbourhoodValue(i,j,m_t) > m_T)
+=======
+                if(map->calcNeighbourhoodValue(i,j,m_t,neighborhood) > m_T)
+>>>>>>> d5ada0ec19a4f6a2d2b4eed76974dc8fbb89d330
                     map->cell[i][j] = ROCK_CHAR;
                 else map->cell[i][j] = ' ';
             }
@@ -128,11 +132,19 @@ Map* ProceduralGenerator::createMap(std::string filename)
             }
         }
     }
+<<<<<<< HEAD
     setTiles(map,m_t);
     for(auto c = 0; c < m_n; c++){
         for(int i=0; i < map->rowCount; i++){
             for(int j=0; j < map->colCount ; j++) {
                 if(map->calcNeighbourhoodValue(i,j,m_t) >= m_T){
+=======
+    setTiles(map);
+    for(auto c = 0; c < m_n; c++){
+        for(int i=0; i < map->rowCount; i++){
+            for(int j=0; j < map->colCount ; j++) {
+                if(map->calcNeighbourhoodValue(i,j,m_t,neighborhood) >= m_T){
+>>>>>>> d5ada0ec19a4f6a2d2b4eed76974dc8fbb89d330
                     map->cell[i][j] = ROCK_CHAR;
                     map->tileTypes[i][j] = ROCK;
                 }
@@ -143,7 +155,11 @@ Map* ProceduralGenerator::createMap(std::string filename)
             }
         }
     }
+<<<<<<< HEAD
     setTiles(map,m_t);
+=======
+    setTiles(map);
+>>>>>>> d5ada0ec19a4f6a2d2b4eed76974dc8fbb89d330
     spdlog::info("Map with seed = {} :",seed);
     printMap(map);
     return map;
