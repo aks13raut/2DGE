@@ -26,7 +26,7 @@ Game::Game(std::string path)
 
     stateHandler.setStateMachinePtr(m_pSM);
     stateHandler.setGamePtr(this);
-    stateHandler.pushState(SPLASH);
+    stateHandler.pushState<SplashState>(stateHandler.game());
     //m_stateMachine.pushState<SplashState>(*this);
 }
 

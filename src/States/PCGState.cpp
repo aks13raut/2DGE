@@ -7,11 +7,11 @@
 
 #include "../ResourceManager/TilesetManager.hpp"
 
-PCGState::PCGState(Game& game)
+PCGState::PCGState(Game& game,std::string filename)
 :   State(game)
 {
     pcg = new ProceduralGenerator("procedural_genration");
-    map = pcg->createMap("cave1");
+    map = pcg->createMap(filename);
 
     player.setTexture(assets.textures.get("M_08"));
     player.setTextureRect({0,1,16,16});

@@ -1,4 +1,4 @@
-seed : 25150
+seed : time
 mapSize :
   x : 50
   y : 50

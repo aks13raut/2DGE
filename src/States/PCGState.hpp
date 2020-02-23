@@ -4,6 +4,7 @@
 #include "../GameLogic/GameObject.hpp"
 #include "../Graphics/TileArray.hpp"
 #include "../PCG/ProceduralGenerator.hpp"
+#include <string>
 
 /**
     Game state for the main part of the game
@@ -11,7 +12,7 @@
 class PCGState : public State
 {
      public:
-        PCGState(Game& game);
+        PCGState(Game& game,std::string filename);
 
         void handleEvent    (sf::Event e)                   override;
         void handleInput    ()                              override;
