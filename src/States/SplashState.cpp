@@ -9,8 +9,11 @@ SplashState::SplashState(Game& game)
 {
     m_background.setTexture(assets.textures.get("splash_bg"));
     m_logo.setTexture(assets.textures.get("logo-default"));
-    m_logo.setPosition(1280/2-200,720/2-200);
-    m_loadingBar.setPosition({1280/2-400,720-40-20});
+    YAML::Node gameConfig = game.getConfig();
+    float width = gameConfig["width"].as<float>();
+    float height = gameConfig["height"].as<float>();
+    m_logo.setPosition(width/2-200,height/2-200);
+    m_loadingBar.setPosition({width/2-400,height-40-20});
 }
 
 void SplashState::handleEvent(sf::Event e){

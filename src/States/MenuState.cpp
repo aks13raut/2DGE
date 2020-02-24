@@ -13,7 +13,7 @@ std::string test;
 
 MenuState::MenuState(Game& game)
 :   State(game)
-,   m_mainMenu(game.getWindow(), 50)
+,   m_mainMenu(game.getWindow(), game.getConfig()["height"].as<float>()/3)
 {
     startBtn = gui::makeButton();
     startBtn->setText("START");

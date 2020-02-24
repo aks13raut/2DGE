@@ -23,6 +23,7 @@ PlayingState::PlayingState(Game& game)
     textrRect.left = playerConfig["texture_rect"]["left"].as<int>();
     textrRect.width = playerConfig["texture_rect"]["width"].as<int>();
     textrRect.height = playerConfig["texture_rect"]["height"].as<int>();
+    player.setSpeed(playerConfig["speed"].as<int>());
 
     player.setTexture(assets.textures.get(textrFile));
     player.setTextureRect(textrRect);
@@ -53,10 +54,19 @@ PlayingState::PlayingState(Game& game)
         spdlog::info("Found Layer: "+layer->getName());
         spdlog::info("Layer Type: {}",int(layer->getType()));
 
-        if(layer->getType() == tmx::Layer::Type::Object)
+        if(layer->getName() == "Collision Layer"){
+            const auto& objects = layer->getLayerAs<tmx::ObjectGroup>().getObjects();
+            for(const auto& object : objects){
+                GameObject* obj = new GameObject();
+                obj->setAABB(object.getAABB());
+                collisonObjects.push_back(obj);
+            }
+        }
+        else if(layer->getType() == tmx::Layer::Type::Object)
         {
             const auto& objects = layer->getLayerAs<tmx::ObjectGroup>().getObjects();
             spdlog::info("Found {} objects in layer",objects.size());
+            
             for(const auto& object : objects)
             {
                 GameObject* obj = new GameObject();
@@ -108,17 +118,23 @@ void PlayingState::update(sf::Time deltaTime){
         (*layer).update(deltaTime);
     }
     player.update(deltaTime);
-    auto screen_center = m_view.getCenter();
-    auto player_center = player.getPosition();
-    player_center.x += 8;
-    player_center.y += 8;
-    auto limit = m_pGame->getWindow().getSize();
-    limit.x = limit.x/8;
-    limit.y = limit.y/8;
-    if( abs(screen_center.x - player_center.x) >= limit.x ||
-        abs(screen_center.y - player_center.y) >= limit.y )
-    {
-        m_view.move(player.getDisplacement());
+    if(player.intersects(collisonObjects)){
+        player.revertMove();
+        //player.move({0,4});
+    }
+    else{
+        auto screen_center = m_view.getCenter();
+        auto player_center = player.getPosition();
+        player_center.x += 8;
+        player_center.y += 8;
+        auto limit = m_pGame->getWindow().getSize();
+        limit.x = limit.x/8;
+        limit.y = limit.y/8;
+        if( abs(screen_center.x - player_center.x) >= limit.x ||
+            abs(screen_center.y - player_center.y) >= limit.y )
+        {
+            m_view.move(player.getDisplacement());
+        }
     }
 }
 void PlayingState::fixedUpdate(sf::Time deltaTime)

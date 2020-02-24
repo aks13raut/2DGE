@@ -1,5 +1,7 @@
 #include "GameObject.hpp"
 
+#include "spdlog/spdlog.h"
+
 void GameObject::setPosition(sf::Vector2f pos){
     m_position = pos;
     m_sprite.setPosition(pos);
@@ -36,6 +38,14 @@ bool GameObject::intersects(const sf::FloatRect& target){
     return m_AABB.intersects(target);
 }
 
+bool GameObject::intersects(const std::vector<GameObject*>& list){
+    for(auto obj : list){
+        if(intersects(obj->getAABB()))
+            return true;
+    }
+    return false;
+}
+
 bool GameObject::contains(const sf::Vector2f& point){
     return m_AABB.contains(point);
 }
@@ -52,28 +62,31 @@ void GameObject::scale(const sf::Vector2f scl){
     m_sprite.scale(scl);
 }
 
+void GameObject::setSpeed(int spd){
+    m_speed = spd;
+}
+
 sf::Vector2f GameObject::getPosition(){
     return m_position;
 }
 
 void GameObject::handleEvent(sf::Event event){
-    int speed = 2;
 
     switch(event.type) {
     
         case sf::Event::KeyPressed:
         switch (event.key.code) {
             case sf::Keyboard::Up:
-            displacement.y = -1*speed;
+            displacement.y = -1*m_speed;
             break;
             case sf::Keyboard::Down:
-            displacement.y = speed;
+            displacement.y = m_speed;
             break;
             case sf::Keyboard::Left:
-            displacement.x = -1*speed;
+            displacement.x = -1*m_speed;
             break;
             case sf::Keyboard::Right:
-            displacement.x = speed;
+            displacement.x = m_speed;
             break;
         }
         break;
@@ -106,6 +119,15 @@ void GameObject::move(sf::Vector2f disp){
     m_sprite.setPosition(m_position);
     m_AABB.top += disp.y;
     m_AABB.left += disp.x;
+    m_revertDisp.x = -1.5*disp.x;
+    m_revertDisp.y = -1.5*disp.y;
+}
+
+void GameObject::revertMove(){
+    m_position += m_revertDisp;
+    m_sprite.setPosition(m_position);
+    m_AABB.top += m_revertDisp.y;
+    m_AABB.left += m_revertDisp.x;
 }
 
 const sf::Vector2f GameObject::getDisplacement(){

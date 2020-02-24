@@ -13,16 +13,23 @@ PCGState::PCGState(Game& game,std::string filename)
     pcg = new ProceduralGenerator("procedural_genration");
     map = pcg->createMap(filename);
 
-    player.setTexture(assets.textures.get("M_08"));
-    player.setTextureRect({0,1,16,16});
-    player.setPosition(51*16,45*16);
-
-    m_view.setCenter(50*16,50*16);
+    YAML::Node playerConfig = YAML::LoadFile("game/config/player.yaml");
+    std::string textrFile = playerConfig["texture"].as<std::string>();
+    sf::IntRect textrRect;
+    textrRect.top = playerConfig["texture_rect"]["top"].as<int>();
+    textrRect.left = playerConfig["texture_rect"]["left"].as<int>();
+    textrRect.width = playerConfig["texture_rect"]["width"].as<int>();
+    textrRect.height = playerConfig["texture_rect"]["height"].as<int>();
+    player.setSpeed(playerConfig["speed"].as<int>());
+    player.setTexture(assets.textures.get(textrFile));
+    player.setTextureRect(textrRect);
 
     YAML::Node gameConfig = game.getConfig();
 
-    int width = gameConfig["width"].as<int>();
-    int height = gameConfig["height"].as<int>();
+    float width = gameConfig["width"].as<float>();
+    float height = gameConfig["height"].as<float>();
+    player.setPosition({45*16,40*16});
+    m_view.setCenter(player.getPosition());
     //m_view.setSize(width*0.67,height*0.67);
     player.scale({3,3});
     

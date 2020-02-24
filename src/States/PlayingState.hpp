@@ -27,4 +27,5 @@ class PlayingState : public State
         sf::Clock m_clock;
         std::vector<MapLayer*> layers; 
         std::vector<GameObject*> m_objects;
+        std::vector<GameObject*> collisonObjects;
 };

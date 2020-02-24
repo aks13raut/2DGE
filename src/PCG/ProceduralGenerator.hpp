@@ -6,6 +6,8 @@
 
 #include <iostream>
 
+#include "spdlog/spdlog.h"
+
 #define ROCK_CHAR 'M'
 
 typedef enum {
@@ -54,6 +56,17 @@ class Map{
             }
         }
         return sum;
+    }
+    sf::Vector2f getRandomFloor(){
+        float i=0,j=0;
+        for(int f=0;f<10;f++){
+            i = rand()%rowCount;
+            j = rand()%colCount;
+            spdlog::info("({},{})={}",i,j,value(i,j));
+            if(value(i,j)==0)
+                break;
+        }
+        return {i*16,j*16};
     }
 };
 
