@@ -14,7 +14,8 @@
 #include "../ResourceManager/TilesetManager.hpp"
 
 PlayingState::PlayingState(Game& game)
-:   State(game)
+:   State(game),
+    m_score(0)
 {
     YAML::Node playerConfig = YAML::LoadFile("game/config/player.yaml");
     std::string textrFile = playerConfig["texture"].as<std::string>();
@@ -36,6 +37,13 @@ PlayingState::PlayingState(Game& game)
     int height = gameConfig["height"].as<int>();
     m_view.setSize(width*0.75,height*0.75);
 
+    scoreDisplay.setString("Score : ");
+    scoreDisplay.setFont(assets.fonts.get("ARCADECLASSIC"));
+    scoreDisplay.setOutlineColor(sf::Color::Black);
+    scoreDisplay.setFillColor(sf::Color::Green);
+    scoreDisplay.setPosition({width - 2*scoreDisplay.getLocalBounds().width,0});
+    scoreDisplay.setOutlineThickness(3);
+    scoreDisplay.setCharacterSize(30);
     
     tmx::Map map;
     map.load("res/tilemaps/"+gameConfig["map file"].as<std::string>()+".tmx");
@@ -60,6 +68,27 @@ PlayingState::PlayingState(Game& game)
                 GameObject* obj = new GameObject();
                 obj->setAABB(object.getAABB());
                 collisonObjects.push_back(obj);
+            }
+        }
+        else if(layer->getName() == "Collectable Layer"){
+            YAML::Node collectConfig = YAML::LoadFile("game/config/collectable.yaml");
+            std::string textrFile = collectConfig["texture"].as<std::string>();
+            sf::IntRect textrRect;
+            textrRect.top = collectConfig["texture_rect"]["top"].as<int>();
+            textrRect.left = collectConfig["texture_rect"]["left"].as<int>();
+            textrRect.width = collectConfig["texture_rect"]["width"].as<int>();
+            textrRect.height = collectConfig["texture_rect"]["height"].as<int>();
+            const auto& objects = layer->getLayerAs<tmx::ObjectGroup>().getObjects();
+            for(const auto& object : objects){
+                GameObject* obj = new GameObject();
+                float pos_x = object.getPosition().x;
+                float pos_y = object.getPosition().y;
+                obj->setPosition(pos_x,pos_y);
+                obj->setAABB({pos_x,pos_y,(float)textrRect.height,(float)textrRect.width});
+                obj->setTexture(assets.textures.get(textrFile));
+                obj->setTextureRect(textrRect);
+                obj->addProp("points",collectConfig["points"].as<std::string>());
+                collectableObjects.push_back(obj);
             }
         }
         else if(layer->getType() == tmx::Layer::Type::Object)
@@ -122,6 +151,17 @@ void PlayingState::update(sf::Time deltaTime){
         player.revertMove();
         //player.move({0,4});
     }
+    else if(player.intersects(collectableObjects)){
+        for(auto it = collectableObjects.begin();it != collectableObjects.end();it++){
+            GameObject* obj = *it;
+            if(player.intersects(*obj)){
+                spdlog::info("found a coin");
+                collectableObjects.erase(it);
+                m_score += stoi(obj->getProp("points"));
+                break;
+            }
+        }
+    }
     else{
         auto screen_center = m_view.getCenter();
         auto player_center = player.getPosition();
@@ -136,6 +176,7 @@ void PlayingState::update(sf::Time deltaTime){
             m_view.move(player.getDisplacement());
         }
     }
+    scoreDisplay.setString("Score : " + std::to_string((int)m_score));
 }
 void PlayingState::fixedUpdate(sf::Time deltaTime)
 {
@@ -146,6 +187,10 @@ void PlayingState::render(sf::RenderTarget& renderer){
     for(auto layer : layers){
         renderer.draw(*layer);
     }
+    for(auto obj : collectableObjects){
+        renderer.draw(*obj);
+    }
     renderer.draw(player);
     m_pGame->setDefaultView();
+    renderer.draw(scoreDisplay);
 }

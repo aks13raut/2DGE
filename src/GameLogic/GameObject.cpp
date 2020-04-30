@@ -38,6 +38,10 @@ bool GameObject::intersects(const sf::FloatRect& target){
     return m_AABB.intersects(target);
 }
 
+bool GameObject::intersects(GameObject& target){
+    return m_AABB.intersects(target.m_AABB);
+}
+
 bool GameObject::intersects(const std::vector<GameObject*>& list){
     for(auto obj : list){
         if(intersects(obj->getAABB()))
@@ -69,6 +73,16 @@ void GameObject::setSpeed(int spd){
 sf::Vector2f GameObject::getPosition(){
     return m_position;
 }
+
+void GameObject::addProp(std::string key,std::string value){
+    m_properties[key] = value;
+}
+std::string GameObject::getProp(std::string key){
+    if(m_properties.find(key) != m_properties.end())
+        return m_properties[key];
+    return "NOTFOUND";
+}
+
 
 void GameObject::handleEvent(sf::Event event){
 

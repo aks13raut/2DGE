@@ -25,7 +25,10 @@ class PlayingState : public State
         sf::View m_view;
         GameObject player;
         sf::Clock m_clock;
+        int m_score;
+        sf::Text scoreDisplay;
         std::vector<MapLayer*> layers; 
         std::vector<GameObject*> m_objects;
         std::vector<GameObject*> collisonObjects;
+        std::vector<GameObject*> collectableObjects;
 };

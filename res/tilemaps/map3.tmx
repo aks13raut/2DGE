@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="48" tileheight="48" nextobjectid="96">
+<map version="1.2" tiledversion="1.3.2" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="50" height="50" tilewidth="48" tileheight="48" infinite="0" nextlayerid="7" nextobjectid="109">
  <tileset firstgid="1" source="../tilesets/caves.tsx"/>
- <layer name="Tile Layer 1" width="50" height="50">
+ <layer id="1" name="Tile Layer 1" width="50" height="50">
   <data encoding="csv">
 7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,71,164,166,71,71,71,71,71,71,71,71,71,
 7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,71,164,166,71,71,71,71,71,71,71,71,71,
@@ -55,7 +55,7 @@
 71,71,71,71,71,71,71,71,71,71,71,71,71,71,71,71,71,71,71,71,71,71,71,71,71,71,71,71,71,71,71,71,71,71,71,71,71,71,71,71,71,71,71,71,71,71,71,71,71,71
 </data>
  </layer>
- <layer name="Tile Layer 2" width="50" height="50">
+ <layer id="2" name="Tile Layer 2" width="50" height="50">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,36,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -109,7 +109,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer name="Tile Layer 3" width="50" height="50">
+ <layer id="3" name="Tile Layer 3" width="50" height="50">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,170,165,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,22,0,0,0,0,0,0,0,0,0,23,0,24,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,165,0,0,0,0,0,0,0,0,0,0,
@@ -163,11 +163,20 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup name="Object Layer 1">
+ <objectgroup id="4" name="Object Layer 1">
   <object id="1" name="starting_point" x="1252" y="2062" width="26" height="28"/>
   <object id="12" x="1428" y="1866" width="4"/>
+  <object id="96" name="cave1" x="1062.67" y="1328" width="34.6667" height="48"/>
+  <object id="97" name="cave2" x="1542.67" y="1721.33" width="33.3333" height="38.6667"/>
  </objectgroup>
- <objectgroup name="Collision Layer">
+ <objectgroup id="6" name="Collectable Layer">
+  <object id="104" x="2090.67" y="1648"/>
+  <object id="105" x="1856" y="1949.33"/>
+  <object id="106" x="796" y="1802.67"/>
+  <object id="107" x="1321.33" y="1614.67"/>
+  <object id="108" x="1268" y="898.667"/>
+ </objectgroup>
+ <objectgroup id="5" name="Collision Layer">
   <object id="41" x="823" y="1588" width="94" height="36"/>
   <object id="42" x="817" y="1170" width="44" height="414"/>
   <object id="43" x="963" y="1590" width="36" height="228"/>

@@ -23,6 +23,7 @@ public:
     void setAABB(const tmx::FloatRect& AABB);
     const sf::FloatRect& getAABB();
     bool intersects(const sf::FloatRect&  target);
+    bool intersects(GameObject& target);
     bool intersects(const std::vector<GameObject*>& list);
     bool contains(const sf::Vector2f&  point);
     void setTexture(const sf::Texture&);
@@ -34,7 +35,8 @@ public:
     void move(sf::Vector2f disp,const std::vector<GameObject*>& list);
     void revertMove();
     const sf::Vector2f getDisplacement();
-
+    void addProp(std::string key,std::string value);
+    std::string getProp(std::string key);
     void update(sf::Time deltaTime);
     void handleEvent(sf::Event e);
 
