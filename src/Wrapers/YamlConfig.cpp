@@ -14,4 +14,6 @@ YAML::Node loadYamlFile(std::string path, std::string file_name)
     catch(YAML::BadFile){
         spdlog::error("YAML : Bad File Error \nHint : check if mentioned file is damaged or empty \nFile : {}",file_path);
     }
+    YAML::Node nullNode;
+    return nullNode;
 }

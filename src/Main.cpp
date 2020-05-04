@@ -4,7 +4,7 @@
 #include "PCG/ProceduralGenerator.hpp"
 #include "yaml-cpp/yaml.h"
 
-
+#include "Audio/SoundPlayer.hpp"
 
 int main(int argc, char *argv[])
 {   
@@ -14,6 +14,8 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
     
+    SoundPlayer sp;
+
     Game game(argv[1]);
     game.run();
 
