@@ -30,5 +30,9 @@ target_link_libraries(${PROJECT_NAME} yaml-cpp)
 add_subdirectory(external/tmxlite/tmxlite)
 target_link_libraries(${PROJECT_NAME} tmxlite)
 
+#openal
+add_subdirectory(external/openal-soft)
+target_link_libraries(${PROJECT_NAME} OpenAL)
+
 #Copy resources
 file(COPY ${CMAKE_SOURCE_DIR}/res DESTINATION ${CMAKE_BINARY_DIR})

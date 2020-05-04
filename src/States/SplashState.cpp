@@ -14,6 +14,9 @@ SplashState::SplashState(Game& game)
     float height = gameConfig["height"].as<float>();
     m_logo.setPosition(width/2-200,height/2-200);
     m_loadingBar.setPosition({width/2-400,height-40-20});
+    // bgMusic.setBuffer(assets.soundBuffers.get("synth-loop-1"));
+    // bgMusic.setLoop(true);
+    // bgMusic.play();
 }
 
 void SplashState::handleEvent(sf::Event e){

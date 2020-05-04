@@ -1,0 +1,14 @@
+title: '2DGE'
+
+width: 1280
+height: 720
+
+view:
+  width: 320
+  height: 180
+
+frame_rate_limit: 60
+
+ticks_per_sec: 60
+
+map file: platformer

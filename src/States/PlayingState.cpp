@@ -35,9 +35,13 @@ PlayingState::PlayingState(Game& game)
 
     int width = gameConfig["width"].as<int>();
     int height = gameConfig["height"].as<int>();
-    m_view.setSize(width*0.75,height*0.75);
+    int viewX = gameConfig["view"]["width"].as<int>();
+    int viewY = gameConfig["view"]["height"].as<int>();
+    m_view.setSize(viewX,viewY);
+    limit.x = viewX/8;
+    limit.y = viewY/8;
 
-    scoreDisplay.setString("Score : ");
+    scoreDisplay.setString("Score  ");
     scoreDisplay.setFont(assets.fonts.get("ARCADECLASSIC"));
     scoreDisplay.setOutlineColor(sf::Color::Black);
     scoreDisplay.setFillColor(sf::Color::Green);
@@ -155,7 +159,6 @@ void PlayingState::update(sf::Time deltaTime){
         for(auto it = collectableObjects.begin();it != collectableObjects.end();it++){
             GameObject* obj = *it;
             if(player.intersects(*obj)){
-                spdlog::info("found a coin");
                 collectableObjects.erase(it);
                 m_score += stoi(obj->getProp("points"));
                 break;
@@ -167,16 +170,14 @@ void PlayingState::update(sf::Time deltaTime){
         auto player_center = player.getPosition();
         player_center.x += 8;
         player_center.y += 8;
-        auto limit = m_pGame->getWindow().getSize();
-        limit.x = limit.x/8;
-        limit.y = limit.y/8;
+        //auto limit = m_pGame->getWindow().getSize();
         if( abs(screen_center.x - player_center.x) >= limit.x ||
             abs(screen_center.y - player_center.y) >= limit.y )
         {
             m_view.move(player.getDisplacement());
         }
     }
-    scoreDisplay.setString("Score : " + std::to_string((int)m_score));
+    scoreDisplay.setString("Score  " + std::to_string((int)m_score));
 }
 void PlayingState::fixedUpdate(sf::Time deltaTime)
 {

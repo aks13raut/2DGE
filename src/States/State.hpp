@@ -12,6 +12,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+//#include <SFML/Audio.hpp>
 
 #include "../Util/NonCopyable.hpp"
 
@@ -33,9 +34,14 @@ public:
 
     virtual void render(sf::RenderTarget& renderer) = 0;
 
-    virtual void pause(){}
-    virtual void resume(){}
+    virtual void pause(){
+        //bgMusic.pause();
+    }
+    virtual void resume(){
+        //bgMusic.play();
+    }
 
 protected:
     Game* m_pGame;
+    //sf::Sound bgMusic;
 };

@@ -31,4 +31,6 @@ class PlayingState : public State
         std::vector<GameObject*> m_objects;
         std::vector<GameObject*> collisonObjects;
         std::vector<GameObject*> collectableObjects;
+
+        sf::Vector2u limit;
 };
