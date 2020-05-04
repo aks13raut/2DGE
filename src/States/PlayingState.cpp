@@ -133,7 +133,11 @@ void printAABB(sf::FloatRect aabb){
 
 void PlayingState::handleEvent(sf::Event e){
     if(e.type == sf::Event::KeyPressed && e.key.code == sf::Keyboard::F){
+<<<<<<< HEAD
         stateHandler.pushState<PCGState>(stateHandler.game(),"cave2");
+=======
+        stateHandler.pushState<PCGState>(stateHandler.game(),"cave1");
+>>>>>>> d5ada0ec19a4f6a2d2b4eed76974dc8fbb89d330
     }
     for(auto* object : m_objects){
         if(object->intersects(player.getAABB())){
